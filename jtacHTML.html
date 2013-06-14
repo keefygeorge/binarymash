@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Titan Jtac Module</title>
+<link type="text/css" href="../css/titan2/jquery-ui.css" rel="stylesheet" />	
+<link type="text/css" href="../css/titan2/titan.css" rel="stylesheet" />
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/jquery-ui.js"></script>
+
+<script type="text/javascript" src="file:///C:/titan_svn/titan/packages/vehicles/mcdonnelldouglas_fa18/F18.objdef" onload="alert(this.src)"></script>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+
+	
+	//updateAircraftList(testAircraft);
+	//updateOrdnanceTypes(testAircraft);
+	$(".accordion").accordion({ header: "h3", collapsible: true, icons: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" },  active: false });
+});
+
+var fa18_ordnance = ["AIM-9", "HYDRA-70", "AMG-30", "GBU-12", "JADAM"];
+var ti_jtac_module_aircraft_configurations = {
+	mcdonnelldouglas_fa18: {
+		model: "packages/vehicles/mcdonnelldouglas_fa18/F18",
+		country: "Australia", 
+		type: "F/A-18", 
+		URN: "Hog-1",
+		ordnanceTypes: ["AIM-9", "HYDRA-70", "AMG-30", "GBU-12", "JADAM"],
+		maxOrdnamce: 9,
+		ordnance: {
+			slot_1: "",
+			slot_2: "",
+			slot_3: "",
+			slot_4: "",
+			slot_5: "",
+			slot_6: "",
+			slot_7: "",
+			slot_8: "",
+			slot_9: ""
+		}
+	}
+}
+//var testAircraft = {country: "Australia", type: "F/A-18"};
+function updateAircraftList(aircraft){
+    var strEl = '<div>'+
+		'<h3><a href="#">'+aircraft.country+'</a></h3>'+
+		'<div>'+
+			'<a href="#" class="aircraftSelection">'+aircraft.URN+'-'+aircraft.type+'</a>'+
+			'</div>'+
+		'</div>';	
+    $("#aircraftList").append(strEl);
+};
+
+function updateOrdnanceTypes(aircraft){
+	var listStart = '<ul class="ordnanceList"><li><li><a href="#">select</a><ul><li>';
+	var listEnd = '</li></li></ul></li></ul>';
+	for(key in aircraft.ordnanceTypes){
+	    listStart += '<a href="#">'+aircraft.ordnanceTypes[key]+'</a>';
+	}
+	$("#cb-3").append(listStart+listEnd);
+}
+</script>
+
+<style>
+@font-face {
+    font-family: "xolonium";
+    src: url('js/fonts/KhmerUI.ttf');
+}
+
+/**************************
+background styles 
+***************************/
+body{
+    background:black;
+    font-family: xolonium;
+    font-size: 14px;
+	height: 600px;
+	width: 630px;
+	background: none;
+	position: relative;
+}
+
+#wrapper {
+    height: 600px;
+	width: 630px;
+    background-color: #1a3d51;
+	position: absolute;
+}
+#drag-header {
+	background-color: #383735;
+	margin: 0;
+	padding: 0;
+}
+#drag-header h4 {
+	color: white;
+	margin: 0;
+	padding: 10px 10px;
+}
+
+#frame {
+    position: relative;
+	height: 560px;
+	width: 630px;
+	background: none;
+}
+.controlBox {
+    height: 270px;
+	width: 350px;
+	border: 1px solid #26b3f7;
+	position: absolute;
+}
+.controlBox-left {
+	width: 250px;
+}
+#cb-1 {
+    top: 5px;
+    left: 0;
+}
+#cb-2 {
+	top: 280px;
+    left: 0;
+	height: 90px;
+	width: 250px;
+}
+#cb-3 {
+	top: 5px;
+    right: 0;
+	background-image: url("../images/editor/F18.png");
+	background-repeat: no-repeat;
+	background-position: 5px 15px;
+}
+#cb-4 {
+    left: 0;
+	bottom: 0;
+	height: 180px;
+}
+#cb-5 {
+    right: 0;
+	bottom: 0;
+}
+
+
+.controlBox-header {
+	margin: 0;
+	padding: 0;
+	height: 20px;
+	background-color: #383735;
+}
+.controlBox-header h4{
+	margin: 0;
+	padding: 0;
+	width: 140px;
+	border: 1px solid #26b3f7;
+	background: #47d1ff;
+}
+
+#aircraftList {
+    margin: 5px;
+    overflow-y: scroll;
+	height: 90%;
+	background-color: white;
+}
+
+#patternList {
+	list-style-type: none;
+	background-color: white;
+	height: 120px;
+	width: 240px;
+	margin: 5px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+#patternList a {
+	text-decoration: none;
+	display: block;
+	color: #383735;
+	padding: 10px;
+	width: 100%;
+	font-weight: bold;
+}
+#patternList a:hover {
+	background-color: #383735;
+	color: white;
+}
+.ordnanceList {
+	height: 50px;
+	width: 50px;
+}
+.ordnanceList li {
+	list-style-type: none;
+}
+.ordnanceList li a {
+	text-decoration: none;
+	color: black;
+	background-color: white;
+}
+
+.ordnanceList {
+    font-family: Arial, Verdana;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.ordnanceList li {
+    display: block;
+    position: relative;
+    float: left;
+}
+.ordnanceList li ul {
+    display: none;
+}
+.ordnanceList li a {
+    display: block;
+    text-decoration: none;
+    color: #ffffff;
+    border-top: 1px solid #ffffff;
+    padding: 5px 15px 5px 15px;
+    background: #1e7c9a;
+    margin-left: 1px;
+    white-space: nowrap;
+}
+.ordnanceList li a:hover {
+	background: #3b3b3b;
+}
+.ordnanceList li:hover ul {
+    display: block;
+    position: absolute;
+}
+.ordnanceList li:hover li {
+    float: none;
+    font-size: 11px;
+}
+.ordnanceList li:hover a { background: #3b3b3b; }
+.ordnanceList li:hover li a:hover {
+    background: #1e7c9a;
+}
+</style>
+</head>
+<body>
+<div id="wrapper">
+<div id="drag-header"><h4>Aircraft Configuration Menu</h4></div>
+	<div id="frame">
+	
+		<div id="cb-1" class="controlBox controlBox-left">
+			<div class="controlBox-header"><h4>Aircraft</h4></div>
+			<div id="aircraftList" class="accordion">
+				
+			</div>
+		</div>
+		
+		<div id="cb-2" class="controlBox">
+			<div class="controlBox-header"><h4>Add Aircraft</h4></div>
+		</div>
+		
+		<div id="cb-3" class="controlBox">
+			<div class="controlBox-header"><h4>Ordnance Selection</h4></div>
+		</div>
+		
+		<div id="cb-4" class="controlBox controlBox-left">
+			<div class="controlBox-header"><h4>Pattern Selection</h4></div>
+			<li id="patternList">
+				<a href="#">Cycle</a>
+				<a href="#">Racetrack</a>
+				<a href="#">Figure 8</a>			
+			</li>
+		</div>
+		
+		<div id="cb-5" class="controlBox">
+			<div class="controlBox-header"><h4>Contact Point</h4></div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

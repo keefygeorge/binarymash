@@ -1,0 +1,5 @@
+Responsive Web Design
+http://stackoverflow.com/questions/7208965/css-floatnone-and-margin-right
+
+Nice responsive web design
+http://www.alistapart.com/articles/responsive-web-design/
