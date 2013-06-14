@@ -1,0 +1,148 @@
+<!doctype html>
+<head>
+	<meta charset="UTF-8">
+	<title>Super duper backbone</title>
+</head>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/underscore.js"></script>
+<script type="text/javascript" src="js/backbone.js"></script>
+<script type="text/javascript" src="js/backbone-localstorage.js"></script>
+<script type="text/javascript" src="js/mustache.js"></script>
+
+<script type="text/template" id="ModelView">
+	<div>testing
+	<span>{{name}}</span>
+	</div>
+</script>
+<script type="text/javascript">
+	// Returns a compiled function
+	function compileTemplate(name) {
+	    return Mustache.compile($('#'+name).html());
+	};
+
+	var AppointMentModel = Backbone.Model.extend({});
+	var AppointmentsList = Backbone.Collection.extend({
+		model : AppointMentModel
+	});
+	// Appointments list view doesn't really need a view, only a collection
+	var AppointmentsListView = Backbone.View.extend({
+		initialize: function() {
+			// Use the body in this example
+			this.container = $('body'); 
+
+			// Bind to the collection, not the model
+			this.collection.bind('all', this.render, this);
+		},
+		render: function() {
+			// Clear the container
+			this.container.empty();
+
+      			// With any collection, loop through and add a collection
+      			this.collection.each(this.createAppView,this);
+
+			return this;
+		},
+		createAppView : function(model){
+      			var appointMentView = new AppointmentView({model:model, collection: this.collection});
+      			this.container.append(appointMentView.render().el);
+
+			return this;
+		}
+	});
+	var AppointmentView = Backbone.View.extend({
+		template : compileTemplate("ModelView"),
+		render: function() {
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		}
+	});
+
+	//Instantiate Appointments Collection
+	var appointmentsList = new AppointmentsList();
+	appointmentsList.reset([{name: 'chad'}]);	
+
+
+
+	// Only render when everything is ready
+	$(document).ready(function(){
+		var appointmentsListView = new AppointmentsListView({collection: appointmentsList});
+		appointmentsListView.render();	
+
+		var model = new AppointMentModel({name:'new peter'});
+		appointmentsList.add(model);
+	});
+
+
+
+    /*Backbone.js Appointments App
+
+    App = (function($){
+      
+      //Create Appointment Model
+      // Making an appointment model
+      var Appointment = Backbone.Model.extend({
+      });
+
+      // Making an Appointment collection that uses the appointment model
+      // Create Appointments Collection
+      
+      // Backbone collections are simply an ordered set of
+      // models. Such that it can be used in situations such as;
+      var Appointments = Backbone.Collection.extend({
+        model: Appointment
+      });
+
+      //Instantiate Appointments Collection
+      var appointmentList = new Appointments();
+      appointmentList.reset(
+        [{startDate: '2013-01-11', title: 'First Appointment', description: 'None', id: 1},
+         {startDate: '2013-02-21', title: 'Second Appointment', description: 'None', id: 2},
+         {startDate: '2013-02-26', title: 'Third Appointment', description: 'None', id: 3}
+        ]
+      );
+
+
+	var AppointmentView = Backbone.View.extend({
+		render: function() {
+			$(this.el).html(this.template(this.model.toJSON()));
+			this.container.append($(this.el));
+			return this;
+		}
+	});
+
+      // Create Appointment View
+      var AppointmentView = Backbone.View.extend({
+        template: _.template(
+          '<span class="appointment" title="<%= description %>">' +
+          ' <span class="title"><%= title %></span>' +
+          ' <span class="delete">X</span>'
+        ),
+
+        initialize: function(options) {
+          this.container = $('#container');
+          this.model = options.model;
+        },
+
+        render: function() {
+          $(this.el).html(this.template({startDate: '2013-02-26', title: 'Third Appointment', description: 'None', id: 3}));
+          this.container.append(this.el);
+          return this;
+        }
+      });
+
+      var self = {};
+      self.start = function(){
+        new AppointmentView({collection: appointmentList}).render();
+      };
+      return self;
+    });
+
+    $(function(){
+      new App(jQuery).start();
+    });
+    */
+</script>
+<body>
+	<div id="container"></div>
+</body>
+</html>
