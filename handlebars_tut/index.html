@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Wonder world</title>
+</head>
+<script src="js/jquery.js"></script>
+<script src="js/handlebars.js"></script>
+<script type="text/template" id="template">
+	<table id={{id}} >
+		<tr>
+			<th>{{colName}}</th>
+			<th>{{colPrice}}</th>
+		</tr>
+		<tr>
+			<td>{{name}}</td>
+			<td>{{price}}</td>
+		</tr>
+	</table>
+</script>
+<script>
+
+	// when everything is loaded, go!
+	$(document).ready(function(){
+		// Use the template, and generate the html and append it
+		var compiledTemplate = Handlebars.compile($("#template").html());
+		var json = {
+			id:22,
+			colName: "Products",
+			colPrice:"Price",
+			name : function(){ return "Penuts"; },
+			price : function(){ return "$22.0"; },
+		};
+
+		var generateContent = function(json,func){
+			var html = func(json);
+			// Append the data to the document
+			var el = $("body").append(html);
+			// hide then fade the element into view
+			$(el).hide().fadeIn('slow');	
+		}
+
+		// Generate the first table
+		generateContent(json,compiledTemplate);
+
+		// Change the json
+		json['name']= 'Michael';
+		json['price']= '$1000000';
+		generateContent(json,compiledTemplate);
+	});
+</script>
+<body>
+</body>
+</html>
