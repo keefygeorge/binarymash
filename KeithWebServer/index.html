@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Wonder world</title>
+	<link rel="shortcut icon" href="/favicon.ico"/>
+	<title>Node Project App</title>
 </head>
+
+<link href="resources/css/style.css" rel="stylesheet">
+
 <script src="js/jquery.js"></script>
 <script src="js/underscore.js"></script>
 <script src="js/backbone.js"></script>
@@ -12,50 +16,83 @@
 	<div>Data Recived: {{ message }}</div>
 </script>
 <script>
-var packageData;
+// when everything is loaded, go!
+$(document).ready(function(){
+	var scrWidth = window.innerWidth;
+	var scrHeight = window.innerHeight;
+	var packageData;
 
-	// when everything is loaded, go!
-	$(document).ready(function(){
-		var connection = new WebSocket('ws://localhost:8081');
+	document.getElementsByTagName('body')[0].style.height=scrHeight+"px";
+	document.getElementById('wrapper').style.height=(scrHeight-100)+"px";
 		
-		// When the connection is open, send some data to the server
-		connection.onopen = function () {
-			// Send the message 'Ping' to the server
-			console.log("connect to server");
-		};
-
-		// Log errors
-		connection.onerror = function (error) {
-			console.log('WebSocket Error ' + error);
-		};
-
-		// Log messages from the server
-		connection.onmessage = function (e) {
-			packageData = JSON.parse(e.data);
-			var name = packageData.name;
-
-			// Append the data to the document
-			$("body").text("");
-			$("body").append("Welcome "+name+" please enjoy your time here on the website");
-		};
+	var connection = new WebSocket('ws://localhost:8081');
 		
-		$("#submitUser").click(function(){
-			connection.send(JSON.stringify({
-				type:'findUser', 
-				name:$('#username').val(), 
-				password:$('#password').val()
-			}));
-		});
+	// When the connection is open, send some data to the server
+	connection.onopen = function () {
+		// Send the message 'Ping' to the server
+		console.log("connect to server");
+	};
+
+	// Log errors
+	connection.onerror = function (error) {
+		console.log('WebSocket Error ' + error);
+	};
+
+	// Log messages from the server
+	connection.onmessage = function (e) {
+		packageData = JSON.parse(e.data);
+		var name = packageData.name;
+
+		// Append the data to the document
+		$("body").text("");
+		$("body").append("Welcome "+name+" please enjoy your time here on the website");
+	};
+		
+	$("#submitUser").click(function(){
+		connection.send(JSON.stringify({
+			type:'findUser', 
+			email:$('#username').val(), 
+			password:$('#password').val()
+		}));
 	});
+		
+	$("nav a").click(function(){
+		$("#userAccount").addClass("show");
+		$("#userAccount fieldset").each(function() {
+			$(this).addClass("hide");
+		});			
+		$("#"+this.id+"-input").toggleClass("hide");
+	});
+});
 </script>
 <body>
-<div id="userAccount">
-<label for="username">Username:</label><input id="username" type="text" value=""/><br>
-<label for="password">Password:</label><input id="password" type="password" value=""/>
-<button id="submitUser">Login</button>
-</div>
+<div id="wrapper">
+<header>
+<h1>Node project</h1>
+<nav>
+	<a id="login" style="width: 55px"href="#">Login<img src="resources/images/PNG/blue/agent.png"/></a>
+	<a id="register" style="width: 70px" href="#">Register<img src="resources/images/PNG/blue/ID.png"/></a>
+</nav>
+</header>
 
+<div id="userAccount" class="hide">
+<fieldset id="login-input" class="hide"><legend>User Login:</legend>
+	<label for="username">Email:</label><input id="username" type="text" value=""/><br>
+	<label for="password">Password:</label><input id="password" type="password" value=""/>
+	<button id="submitUser">Login</button>
+</fieldset>
+
+<fieldset id="register-input" class="hide"><legend>Register Account:</legend>
+<label for="redusername">Username:</label><input id="redusername" type="text" value=""/><br>
+	<label for="regfirstname">First Name:</label><input id="regfirstname" type="text" value=""/><br>
+	<label for="reglastname">Last Name:</label><input id="reglastname" type="text" value=""/><br>
+	<label for="regemail">Email:</label><input id="regemail" type="email" value=""/>
+	<label for="regpassword">Password:</label><input id="regpassword" type="password" value=""/><br>
+	<label for="regpasswordValidate">Confirm Password:</label><input id="regpasswordValidate" type="password" value=""/>
+	<button id="registerUser">Register</button>
+</fieldset>
 </div>
-I'm a little tea cup, and shes crazy	
+</div> <!-- END Wrapper -->
+</div>
 </body>
 </html>

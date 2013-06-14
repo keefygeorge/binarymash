@@ -1,0 +1,82 @@
+body{
+	background-image: url('../images/Geometric-Background-Design.jpg');
+}
+#wrapper{
+	width: 90%;
+	min-height: 600px;
+	margin: auto;
+	background-color: white;
+	opacity: 0.9;
+}
+header{
+	width: 100%;
+	background-color: white;
+}
+header h1{
+	text-shadow: 0.05em 0.05em 0.05em #333;
+	margin: 5px;
+	color: rgb(0, 159, 199);
+}
+header nav{
+	text-align: right;
+	background-color: rgb(59, 57, 70);
+	border: 1px solid rgb(0, 159, 199);
+	padding: 2px;
+	margin: 1px;
+}
+header nav a{
+	display: inline-block;
+	padding: 2px 4px;
+	text-align: left;
+	text-decoration: none;
+	color: rgb(0, 159, 199); 
+	border-left: 1px solid rgb(0, 159, 199);
+	position: relative;
+}
+header nav a img{
+	height: 20px;
+	width: 20px;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	right: 0;
+}
+header nav a:hover{
+	background-color: rgb(0, 159, 199); 
+	color: rgb(52, 59, 75);
+}
+
+#userAccount{
+	width: 350px;
+	height: 100%;
+	padding: 5px;
+	margin: 1px;
+}
+fieldset{
+	height: 195px;
+	width: 320px;
+	border: 1px solid rgb(0, 159, 199);
+	background-color: none;
+	color: rgb(0, 159, 199);
+}
+fieldset legend{
+	font-size: 1.2em;
+	color: rgb(0, 159, 199);
+}
+fieldset label {
+	display: inline-block;
+	color: grey;
+	width: 150px;
+	font-size: 1.1em;
+}
+.hide{
+	display: none;
+}
+.show{
+	display: block;
+}
+button{
+	display: block;
+	float: right;
+	margin-right: 15px;
+}
