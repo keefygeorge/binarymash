@@ -4,9 +4,10 @@ body{
 #wrapper{
 	width: 90%;
 	min-height: 600px;
-	margin: auto;
+	margin: 50px auto;
 	background-color: white;
-	opacity: 0.9;
+	opacity: 0.8;
+	position: relative;
 }
 header{
 	width: 100%;
@@ -51,6 +52,7 @@ header nav a:hover{
 	height: 100%;
 	padding: 5px;
 	margin: 1px;
+	position: relative;
 }
 fieldset{
 	height: 195px;
@@ -79,4 +81,19 @@ button{
 	display: block;
 	float: right;
 	margin-right: 15px;
+}
+
+#maintenance{
+	position: absolute;
+	bottom: 50px;
+	right: 20px;
+	z-index: 1001;
+	color: rgb(0, 159, 199);
+	text-shadow: 0.1em 0.1em 0.1em black;
+}
+#maintenance img{
+	position: absolute;
+	bottom: 20px;
+	right: -60px;
+	z-index: 1002;
 }

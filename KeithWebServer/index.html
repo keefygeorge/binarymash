@@ -12,24 +12,24 @@
 <script src="js/underscore.js"></script>
 <script src="js/backbone.js"></script>
 <script src="js/handlebars.js"></script>
-<script type="text/template" id="msg">
-	<div>Data Recived: {{ message }}</div>
+<script type="text/template" id="frameContent">
+{{ content }}
 </script>
 <script>
 // when everything is loaded, go!
 $(document).ready(function(){
 	var scrWidth = window.innerWidth;
 	var scrHeight = window.innerHeight;
-	var packageData;
 
-	document.getElementsByTagName('body')[0].style.height=scrHeight+"px";
-	document.getElementById('wrapper').style.height=(scrHeight-100)+"px";
+	//document.getElementsByTagName('body')[0].style.height=scrHeight+"px";
+	//document.getElementById('wrapper').style.height=(scrHeight-100)+"px";
 		
 	var connection = new WebSocket('ws://localhost:8081');
 		
 	// When the connection is open, send some data to the server
 	connection.onopen = function () {
-		// Send the message 'Ping' to the server
+		// Send the message 'loaded' to the server
+		connection.send("loaded");
 		console.log("connect to server");
 	};
 
@@ -40,59 +40,37 @@ $(document).ready(function(){
 
 	// Log messages from the server
 	connection.onmessage = function (e) {
-		packageData = JSON.parse(e.data);
-		var name = packageData.name;
-
+		var packageData = JSON.parse(e.data);
+		if(packageData.message === "initialise"){
+			//$("body").append();
+			$("body").append(packageData.mod.html);
+			initFrameContent();
+		}		
 		// Append the data to the document
-		$("body").text("");
-		$("body").append("Welcome "+name+" please enjoy your time here on the website");
 	};
+	
+	function initFrameContent(){		
+		$("nav a").click(function(){
+			$("#userAccount").addClass("show");
+			$("#userAccount fieldset").each(function() {
+				$(this).addClass("hide");
+			});			
+			$("#"+this.id+"-input").toggleClass("hide");
+		});
+			
+		$("#submitUser").click(function(){
+			connection.send(JSON.stringify({
+				type:'findUser', 
+				email:$('#username').val(), 
+				password:$('#password').val()
+			}));
+		});
 		
-	$("#submitUser").click(function(){
-		connection.send(JSON.stringify({
-			type:'findUser', 
-			email:$('#username').val(), 
-			password:$('#password').val()
-		}));
-	});
+		document.getElementsByTagName('body')[0].style.height=scrHeight+"px";
+		document.getElementById('wrapper').style.height=(scrHeight-100)+"px";
+	}
 		
-	$("nav a").click(function(){
-		$("#userAccount").addClass("show");
-		$("#userAccount fieldset").each(function() {
-			$(this).addClass("hide");
-		});			
-		$("#"+this.id+"-input").toggleClass("hide");
-	});
 });
 </script>
-<body>
-<div id="wrapper">
-<header>
-<h1>Node project</h1>
-<nav>
-	<a id="login" style="width: 55px"href="#">Login<img src="resources/images/PNG/blue/agent.png"/></a>
-	<a id="register" style="width: 70px" href="#">Register<img src="resources/images/PNG/blue/ID.png"/></a>
-</nav>
-</header>
-
-<div id="userAccount" class="hide">
-<fieldset id="login-input" class="hide"><legend>User Login:</legend>
-	<label for="username">Email:</label><input id="username" type="text" value=""/><br>
-	<label for="password">Password:</label><input id="password" type="password" value=""/>
-	<button id="submitUser">Login</button>
-</fieldset>
-
-<fieldset id="register-input" class="hide"><legend>Register Account:</legend>
-<label for="redusername">Username:</label><input id="redusername" type="text" value=""/><br>
-	<label for="regfirstname">First Name:</label><input id="regfirstname" type="text" value=""/><br>
-	<label for="reglastname">Last Name:</label><input id="reglastname" type="text" value=""/><br>
-	<label for="regemail">Email:</label><input id="regemail" type="email" value=""/>
-	<label for="regpassword">Password:</label><input id="regpassword" type="password" value=""/><br>
-	<label for="regpasswordValidate">Confirm Password:</label><input id="regpasswordValidate" type="password" value=""/>
-	<button id="registerUser">Register</button>
-</fieldset>
-</div>
-</div> <!-- END Wrapper -->
-</div>
-</body>
+<body id="body"></body>
 </html>
