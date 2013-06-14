@@ -40,13 +40,18 @@ var packageData;
 		};
 		
 		$("#submitUser").click(function(){
-			connection.send(JSON.stringify({type:'findUser', name:$('#username').val()}));
+			connection.send(JSON.stringify({
+				type:'findUser', 
+				name:$('#username').val(), 
+				password:$('#password').val()
+			}));
 		});
 	});
 </script>
 <body>
 <div id="userAccount">
-<label for="username">Username:</label><input id="username" type="text" value=""/>
+<label for="username">Username:</label><input id="username" type="text" value=""/><br>
+<label for="password">Password:</label><input id="password" type="password" value=""/>
 <button id="submitUser">Login</button>
 </div>
 
