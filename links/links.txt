@@ -30,3 +30,7 @@ npm install mongodb
 
 // More of a implimentaiton for javascript
 npm install mongojs
+
+
+// Prototype of binding between socket.io and mongoose (use tonight)
+https://github.com/itsjoesullivan/Backbone.socket
