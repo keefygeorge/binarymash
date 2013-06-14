@@ -1,1 +1,0 @@
-START /WAIT /B c:/mongodb/bin/mongo.exe 
