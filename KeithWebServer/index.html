@@ -12,7 +12,6 @@
 	<div>Data Recived: {{ message }}</div>
 </script>
 <script>
-
 var packageData;
 
 	// when everything is loaded, go!
@@ -31,16 +30,9 @@ var packageData;
 		};
 
 		// Log messages from the server
-		// this is sent from, ws
-		// npm install ws
-		// for more details
 		connection.onmessage = function (e) {
 			packageData = JSON.parse(e.data);
-			alert(e.data);
 			var name = packageData.name;
-			// Use the template, and generate the html and append it
-			//var func = Handlebars.compile($("#msg").html());
-			//var html = func({message:e.data});
 
 			// Append the data to the document
 			$("body").text("");
