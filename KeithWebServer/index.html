@@ -12,7 +12,7 @@
 	<div>Data Recived: {{ message }}</div>
 </script>
 <script>
-/*
+
 var packageData;
 
 	// when everything is loaded, go!
@@ -50,21 +50,7 @@ var packageData;
 		$("#submitUser").click(function(){
 			connection.send(JSON.stringify({type:'findUser', name:$('#username').val()}));
 		});
-	});*/
-	
-	var net = require('net');
-var client = net.connect({port: 8124},
-    function() { //'connect' listener
-  console.log('client connected');
-  client.write('world!\r\n');
-});
-client.on('data', function(data) {
-  console.log(data.toString());
-  //client.end();
-});
-client.on('end', function() {
-  console.log('client disconnected');
-});
+	});
 </script>
 <body>
 <div id="userAccount">
