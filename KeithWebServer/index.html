@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Wonder world</title>
+</head>
+<script src="js/jquery.js"></script>
+<script src="js/underscore.js"></script>
+<script src="js/backbone.js"></script>
+<script src="js/handlebars.js"></script>
+<script type="text/template" id="msg">
+	<div>Data Recived: {{ message }}</div>
+</script>
+<script>
+/*
+var packageData;
+
+	// when everything is loaded, go!
+	$(document).ready(function(){
+		var connection = new WebSocket('ws://localhost:8081');
+		
+		// When the connection is open, send some data to the server
+		connection.onopen = function () {
+			// Send the message 'Ping' to the server
+			console.log("connect to server");
+		};
+
+		// Log errors
+		connection.onerror = function (error) {
+			console.log('WebSocket Error ' + error);
+		};
+
+		// Log messages from the server
+		// this is sent from, ws
+		// npm install ws
+		// for more details
+		connection.onmessage = function (e) {
+			packageData = JSON.parse(e.data);
+			alert(e.data);
+			var name = packageData.name;
+			// Use the template, and generate the html and append it
+			//var func = Handlebars.compile($("#msg").html());
+			//var html = func({message:e.data});
+
+			// Append the data to the document
+			$("body").text("");
+			$("body").append("Welcome "+name+" please enjoy your time here on the website");
+		};
+		
+		$("#submitUser").click(function(){
+			connection.send(JSON.stringify({type:'findUser', name:$('#username').val()}));
+		});
+	});*/
+	
+	var net = require('net');
+var client = net.connect({port: 8124},
+    function() { //'connect' listener
+  console.log('client connected');
+  client.write('world!\r\n');
+});
+client.on('data', function(data) {
+  console.log(data.toString());
+  //client.end();
+});
+client.on('end', function() {
+  console.log('client disconnected');
+});
+</script>
+<body>
+<div id="userAccount">
+<label for="username">Username:</label><input id="username" type="text" value=""/>
+<button id="submitUser">Login</button>
+</div>
+
+</div>
+I'm a little tea cup, and shes crazy	
+</body>
+</html>

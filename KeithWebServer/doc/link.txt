@@ -1,0 +1,26 @@
+Getting started with mongo db
+http://howtonode.org/node-js-and-mongodb-getting-started-with-mongojs
+
+Utility for windows 
+http://sourceforge.net/projects/unxutils/
+
+Switching tasks
+VistaSwitcher
+
+
+Switch tabs (Chrome, Sublime)
+Ctrl+Tab
+Ctrl+w (Close)(Same)
+Ctrl+t (New Tab)
+Shift+Ctrl+T (Re-open closed tab)
+
+Sublime tips: (only one instance)
+"open_files_in_new_window": false
+
+
+npm install connect
+npm install nodejs
+npm install mongojs
+npm install ws
+
+Fun fun fun, ho ho ho

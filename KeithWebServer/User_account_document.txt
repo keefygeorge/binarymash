@@ -1,0 +1,13 @@
+db.addUser('keefygeorge','password'){
+	"_id" : ObjectId("5184019d672ead0a480a2308"),
+	"user" : "keefygeorge",
+	"readOnly" : false,
+	"pwd" : "8a0c83044397b88086a1088164e1f1c5"
+}
+
+db.system.users.find().pretty(){
+	"_id" : ObjectId("5184019d672ead0a480a2308"),
+	"user" : "asya",
+	"readOnly" : false,
+	"pwd" : "8a0c83044397b88086a1088164e1f1c5"
+}
