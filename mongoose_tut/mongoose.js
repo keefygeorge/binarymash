@@ -1,17 +1,36 @@
 /*
 	Basic logical connections.
-	Moongose has the following conventions:
+	
+	Inside mongo, you have collection and relatively no restriction on the format of the data
+	inside those collections.
 
-	You need to define your collection, and format for the collection
-	this is done via mongoose.Schema. To define a collection inside a databae
-	you need to use model's. Models accept the name of the model, the schema 
-	and optional collection name. The collection name if not provided is the model's name
+	For Mongoose, and the relational mapping there is some restrictions.
 
-	But wait there is more.
+	You no longer have 'collections'. Instead you now have models.
+
+	Models are like single records, that reside inside a collection.
+	The model has a schema that defines the format
+	{
+		id: Number,
+		first_name: String,
+	}
+
+	When defining a model, you specify the following
+	Name , the model name
+	Schema, the models schema (aka format)
+	Collection, if no collection name is specified the model's name is used for the mongo collection.
+		
+	To create model you use
+	mongoose.model('name',Schema,'collectionName') \\ Collection name being optional
+	or 
+	connection.model(...)
+
+	Once, a model's been created it cannot be modified. 
+
 	Models can be created, then accessed in three different ways
-	1) Using the mongoose.connect (does not return a connection instance)
+	1) Using the mongoose.connect 
 	2) Using mongoose.createConnection, create a model accessed only by the connection
-	3) Using mongoose.createConnection, tie the mongoose model instance to the connection 
+	3) Using mongoose.createConnection, tie the mongoose model to the connection 
 
 	Using the mongoose.connect (does not return a connection instance)
 	Using Mongoose connect:
@@ -19,7 +38,6 @@
 		mongoose.connect('mongodb://localhost/mydb');
 
 		// mongoose.model ties the defined model to the default connection that was created by calling mongoose.connect.
-		// doesn't matter before or after!
 		var Actor = mongoose.model('Actor', new Schema({ name: String }));
 	
 	Using mongoose.createConnection, create a model accessed only by the connection
@@ -27,11 +45,10 @@
 		var db = mongoose.createConnection(..);
 
 		// Db.model ties the model to the connection that was created by calling var db = mongoose.createConnection.
-		db.model('Venue', new Schema(..));
-		var Ticket = db.model('Ticket', new Schema(..));
-		var Venue = db.model('Venue');
+		var VenuModel = db.model('Venue', new Schema(..));
+		var venu = new VenuModel();
 	
-	Using mongoose.createConnection, tie the mongoose model instance to the connection 
+	Using mongoose.createConnection, tie the mongoose created models to the connection 
 		var mongoose = require('mongoose');
 		mongoose.model('Venue', new Schema(..));
 		
