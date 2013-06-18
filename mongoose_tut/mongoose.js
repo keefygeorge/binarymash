@@ -87,3 +87,19 @@ db.once('open', function(){
 	});
 });
 
+
+
+/*
+Though it seems like, we deal with documents instead of records...
+
+http://stackoverflow.com/questions/5024787/update-model-with-mongoose-express-nodejs
+
+
+
+Once document has been found, just call save to save the document
+Model.findOne({ name: 'borne' }, function (err, doc){
+  doc.name = 'jason borne';
+  doc.visits.$inc();
+  doc.save();
+});
+*/
