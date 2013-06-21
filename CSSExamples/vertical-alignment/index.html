@@ -1,0 +1,63 @@
+<!-- 
+
+	Veritcal Alignment in div's
+	
+	CSS 2 Specification
+	http://www.w3.org/TR/CSS2/cover.html
+	
+ -->
+<!-- http://stackoverflow.com/questions/15445373/when-does-vertical-align-works-in-table-cell-and-when-doesnt -->
+<!-- http://stackoverflow.com/questions/10910438/div-height100-not-working-with-displaytable-cell -->
+<!-- 
+<html>
+<body style="position:fixed; top:0px; left:0px;bottom:0px; right:0px;  margin:0px;">
+    <div style='display : table; width : 100%; height : 100%'>
+    <div style='display : table-row; width : 100%; height : 100%'>
+        <div style="height:100%; width:100%; border:solid; display : table-cell;">
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+
+<style type="text/css">
+* {
+	border:0px solid black;
+}
+
+body,html{
+	height:98%;
+}
+
+#table{
+	height:100%;
+	display: table;
+	margin: auto;
+}
+
+#cvalign{
+	display:table-cell;
+	vertical-align: middle;
+}
+
+#ccontent{
+	border:1px solid grey;
+	background-color: #dfdfdf;
+}
+
+</style>
+</head>
+<body>
+<div id="table">
+	<div id="cvalign">
+		<div id="ccontent">
+			<img src="boxmodel.png">
+		</div>
+	</div>
+</div>
+</body>
+</html>
