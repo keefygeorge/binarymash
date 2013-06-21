@@ -4,14 +4,71 @@
 	<meta charset="UTF-8">
 	<title>Chads Machine</title>
 </head>
-<script data-main="js/main.js" src="js/require.js"></script>
-<script type="text/template" id="msg">
-	<div>Data Recived: {{ message }}</div>
+<!-- require.js sucks, just use the standard importation of the js files-->
+<script src="js/jquery.js"></script>
+<script src="js/underscore.js"></script>
+<script src="js/backbone.js"></script>
+<script src="js/handlebars.js"></script>
+<script type="text/template" id="templatecontent">
+<pre>
+	// This should mostly be directly from the mongodb database
+	Id : {{_id}}
+	Message : {{message}}
+</pre>
+</script>
+<script type="text/javascript">
+
+// Compile the template
+
+$(document).ready(function(){
+	var docFunc = Handlebars.compile($("#templatecontent").html());
+	var $content = $("#content");
+
+	var appendToDocument = function(item){
+		$content.append(docFunc(item));
+	}
+	// Do a quick test with a json object
+	// $("#content").append(docFunc({_id:22,message:"oh shit"}));
+
+	var connection =  new WebSocket('ws://localhost:8081');
+
+	// On open don't do any thing really interesting
+	connection.onopen = function () {
+		// Set the window connection, only when it is open
+		window.connection = connection;
+
+		console.log("connect to server");
+
+		// On connection ask for all the recorders, and also the id fields
+		var msgStrign = JSON.stringify({type:"getAll"});
+		connection.send(msgStrign);
+	};
+
+	// Log errors
+	connection.onerror = function (error) {
+		// delete the window connection
+		delete window.connection;
+		// Report failure
+		alert("web socket failed to connect:"+ error );
+	};
+
+	// Log messages from the server
+	connection.onmessage = function(msg){
+		// Winsocket actually has its own standard format
+		// not time for that right now
+		// msg.data <-- where the string data is located
+		// connection.send('Ping');
+
+		var stringData = msg.data;
+		var object = JSON.parse(stringData);
+		// Set all has an array
+		if (object["type"]=="setAll"){
+			_.each(object["data"],appendToDocument);
+		}
+	};
+});
 </script>
 <body>
-<h1>Hello</h1>
-<p>
-	This is chads machine, its just sitting here not doing much, but <b>Hello world</b>
-</<p>
+	<div id="content"></div>
 </body>
 </html>

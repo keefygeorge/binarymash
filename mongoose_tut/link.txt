@@ -1,0 +1,2 @@
+The api documentation is pretty poor
+http://mongoosejs.com/docs/guide.html
