@@ -32,18 +32,6 @@ $(document).ready(function(){
 
 	var connection =  new WebSocket('ws://localhost:8081');
 
-	// On open don't do any thing really interesting
-	connection.onopen = function () {
-		// Set the window connection, only when it is open
-		window.connection = connection;
-
-		console.log("connect to server");
-
-		// On connection ask for all the recorders, and also the id fields
-		var msgStrign = JSON.stringify({type:"getAll"});
-		connection.send(msgStrign);
-	};
-
 	// Log errors
 	connection.onerror = function (error) {
 		// delete the window connection
@@ -52,20 +40,59 @@ $(document).ready(function(){
 		alert("web socket failed to connect:"+ error );
 	};
 
+	// Callback system
+	window.CBSys = {
+		cbus : "funcObjID", // callback unique string, for json object
+		cbuid : 5, // call back unique identifier
+		cbfunc : [] // call back function objects
+	};
+
+	/*
+		msg: java-script literal object
+		callback: optional
+	*/
+	window.sendMessage = function(msg,callback){
+		if (callback)
+		{
+			msg[CBSys.cbus] = CBSys.cbuid;
+			CBSys.cbfunc[CBSys.cbuid] = callback;
+			CBSys.cbuid++;
+		} 
+
+		var msgString = JSON.stringify(msg);
+		connection.send(msgString);
+	}
+
 	// Log messages from the server
 	connection.onmessage = function(msg){
-		// Winsocket actually has its own standard format
-		// not time for that right now
-		// msg.data <-- where the string data is located
-		// connection.send('Ping');
-
 		var stringData = msg.data;
 		var object = JSON.parse(stringData);
-		// Set all has an array
-		if (object["type"]=="setAll"){
-			_.each(object["data"],appendToDocument);
-		}
+
+		// Check if the callback was registered with the unique id
+		if (object[CBSys.cbus]){
+			var index = object[CBSys.cbus];
+			var callback = CBSys.cbfunc[index];
+
+			callback(object,connection);
+			delete CBSys.cbfunc[index]; // Remove it...
+		};
+
+		// Generic global broadcast messages.
 	};
+
+	// On open don't do any thing really interesting
+	connection.onopen = function () {
+		// Set the window connection, only when its connected
+		window.connection = connection;
+		console.log("connect to server");
+
+		// Send a message out, and get a callback when we some data back
+		// it may be some time before we get it back
+		sendMessage({type:"getAll"}, function(obj, con){
+			alert("received:" + JSON.stringify(obj));
+		});
+	};
+
 });
 </script>
 <body>

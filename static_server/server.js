@@ -47,6 +47,9 @@ db.once('open', function(){
 */
 // ################################
 
+// callback unique string, for json object
+var cbus = "funcObjID";
+
 // Use npm install ws
 var WebSocketServer = require('ws').Server;
 var ws = new WebSocketServer({port: 8081});
@@ -65,6 +68,8 @@ ws.on('connection', function(ws) {
 					type:"setAll",
 					data:items
 				}
+				// Remember to send back, the function object, even if it doesn't exsit
+				if (obj[cbus]) tmp[cbus] = obj[cbus];
 
 				var msgStr = JSON.stringify(tmp);
 				console.log("Sending:" + msgStr);
